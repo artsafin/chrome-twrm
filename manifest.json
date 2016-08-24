@@ -1,0 +1,50 @@
+{
+  "manifest_version": 2,
+
+  "name": "Teamwox/Redmine integration",
+  "description": "Adds slight interaction between Teamwox and Redmine",
+  "version": "1.0",
+  "icons": {"16": "res/icon/icon16.png",
+            "48": "res/icon/icon48.png",
+            "128": "res/icon/icon128.png"},
+
+  "background": {
+    "scripts": [
+      "bower_components/jquery/dist/jquery.min.js",
+      "src/configure.js",
+      "src/background.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "all_frames": true,
+      "matches": [
+        "https://tw.fxtm.com/servicedesk/view/*",
+        "https://tw.fxtm.com/task/view/*",
+        "https://redmine.fxtm/*"
+      ],
+      "js": ["bower_components/jquery/dist/jquery.min.js", "src/TwCrawler.js", "src/configure.js", "src/inject.js"]
+    }
+  ],
+  "page_action": {
+    "default_icon": {
+      "19": "res/icon/icon19.png",
+      "38": "res/icon/icon38.png"
+    },
+    "default_title": "See Redmine options",
+    "default_popup": "views/popup.html"
+  },
+
+  "options_ui": {
+    "page": "views/options.html",
+    "chrome_style": true
+  },
+  "permissions": [
+    "webRequest",
+    "webRequestBlocking",
+    "storage",
+    "activeTab",
+    "https://tw.fxtm.com/*/view/*",
+    "https://redmine.fxtm/*"
+  ]
+}
