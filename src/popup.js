@@ -24,6 +24,9 @@ chrome.tabs.query({active: true}, function(tabs){
     }
 
     $(function(){
+
+        
+
         $('#progress').hide();
         $('#placeholder').empty();
 

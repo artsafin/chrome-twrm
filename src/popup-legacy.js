@@ -1,40 +1,5 @@
 configure(function(config) {
-    function processOverrides(tw, ovr) {
-        var result = {};
-
-        if (!ovr) {
-            return result;
-        }
-
-        for (var k in ovr) if (ovr.hasOwnProperty(k)) {
-            var refValue = tw[k];
-            if (refValue === undefined) {
-                continue;
-            }
-            for (var i=0, leni=ovr[k].length; i<leni; i++) {
-                if (!ovr[k][i].match || !ovr[k][i].params) {
-                    continue;
-                }
-
-                var re = new RegExp(ovr[k][i].match);
-                if (!$.isArray(refValue)) {
-                    refValue = [refValue];
-                }
-                for (var j=0,lenj=refValue.length;j<lenj;j++) {
-                    if (re.test("" + refValue[j])) {
-                        $.extend(true, result, ovr[k][i].params);
-                        break;
-                    }
-                }
-            }
-        }
-
-        return result;
-    }
-
     chrome.tabs.query({active: true}, function(tabs){
-        console.log('[popup] tabs', tabs);
-
         if (!tabs.length) {
             return;
         }
@@ -44,21 +9,53 @@ configure(function(config) {
         $(function(){
             chrome.tabs.sendMessage(tab.id, {event: "postDataDemanded"}, null, function(message){
                 if (message && message.event == "postDataUpdate" && message.tw) {
-                    $('#progress').hide();
-                    $('#placeholder').empty();
+                    var newIssue = RedmineIssueForm.fromTw(message.tw);
+                    newIssue.applyMatchOverrides(config.overrides);
+                    newIssue.typeOfIssue("Support");
 
-                    var rawParams = getRedmineParamsByTwData(config.redmineUrl, message.tw);
-                    var overrides = processOverrides(message.tw, config.overrides);
-                    var params = $.extend(true, rawParams, overrides);
-                    console.log('[popup] overrides', params);
-
-                    var link = createNewIssueLink(config.redmineUrl, config.redmineProject, params);
-
-                    console.log('[popup]', link);
-
-                    $('#placeholder').append($("<iframe src='{0}'></iframe>".format(link)));
+                    showIframeEnriched(newIssue, message.tw);
                 }
             });
         });
     });
+
+    function showIframe(rmForm){
+        var link = rmForm.createNewIssueLink(config.redmineUrl, config.redmineProject);
+
+        console.log('[popup]', rmForm, link);
+
+        $('#progress').hide();
+        $('#placeholder').html($("<iframe src='{0}'></iframe>".format(link)));
+    };
+
+    function showIframeEnriched(newIssue, tw) {
+
+        // console.log('[popup] showIframeEnriched', tw, newIssue);
+        if (config.redmineApiKey && tw.project) {
+            var url = "{0}/issues.json?key={1}&subject={2}".format(config.redmineUrl, config.redmineApiKey, encodeURIComponent(RedmineIssueForm.PROJECT_PREFIX + tw.project));
+            console.log("RM url", url);
+            $.ajax({
+                method: "GET",
+                url: url,
+                complete: function(xhr){
+                    if (xhr.status == 200 && xhr.responseJSON && xhr.responseJSON.issues && xhr.responseJSON.issues.length) {
+                        newIssue.parentIssueId(xhr.responseJSON.issues[0].id || null);
+
+                        if (xhr.responseJSON.issues[0].custom_fields) {
+                            xhr.responseJSON.issues[0].custom_fields.map(function(v){
+                                if (v.name == "Type of Issue") {
+                                    newIssue.typeOfIssue(v.value, true);
+                                    return false;
+                                }
+                            });
+                        }
+                    }
+
+                    showIframe(newIssue);
+                }
+            });
+        } else {
+            showIframe(newIssue);
+        }
+    }
 });

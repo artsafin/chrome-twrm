@@ -3,7 +3,8 @@ function configure(cb) {
         twUrl: "https://tw.fxtm.com",
         redmineUrl: "https://redmine.fxtm",
         redmineProject: "web-development-department",
-        overridesStr: "{}"
+        overridesStr: "{}",
+        redmineApiKey: ""
     };
 
     function normalize(config) {

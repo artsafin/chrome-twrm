@@ -20,7 +20,6 @@
       "all_frames": true,
       "matches": [
         "https://tw.fxtm.com/servicedesk/view/*",
-        "https://tw.fxtm.com/task/view/*",
         "https://redmine.fxtm/*"
       ],
       "js": ["bower_components/jquery/dist/jquery.min.js", "src/TwCrawler.js", "src/configure.js", "src/inject.js"]

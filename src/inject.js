@@ -7,7 +7,7 @@ configure(function(config){
         chrome.runtime.sendMessage(null, {event: "postShown", tw: tw.getPostData()});
 
         chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-            console.log('[inject] onMessage', arguments);
+            // console.log('[inject] onMessage', arguments);
 
             if (message && message.event && message.event == "postDataDemanded") {
                 sendResponse({event: "postDataUpdate", tw: tw.getPostData(true)});
@@ -54,7 +54,11 @@ configure(function(config){
         if (flashText && flashText.match(/^Issue.*created/)) {
             var addTwReferenceLink = $("<a class='icon icon-report' href='#'>Post # to Teamwox</a>");
             addTwReferenceLink.click(function(){
-                chrome.runtime.sendMessage(null, {event: "issueCreated", text: flashText});
+                var newEl = $('<div/>').html(flashText);
+                var newHref = config.redmineUrl + newEl.find("a[href]").attr("href");
+                newEl.find('a[href]').attr('href', newHref);
+
+                chrome.runtime.sendMessage(null, {event: "issueCreated", text: newEl.html()});
             });
 
             $('#content').find('.contextual:first').prepend(addTwReferenceLink);
