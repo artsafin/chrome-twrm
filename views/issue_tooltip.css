@@ -1,0 +1,27 @@
+#twrm_issue_tooltip {
+    position: absolute;
+
+    background-color: white;
+    border: 1px solid wheat;
+    margin: 0;
+    padding: 0 0.5em 0 0.5em;
+    box-shadow: wheat 5px 5px 20px 0px;
+    line-height: 1.6em;
+}
+
+#twrm_issue_tooltip ul {
+
+    list-style-type: none;
+    padding: 0;
+}
+
+#twrm_issue_tooltip ul [data-sep]:before {
+    content: " • ";
+}
+
+#twrm_issue_tooltip [data-twrm-it-sprint]:before {
+    content: "Sprint: ";
+}
+#twrm_issue_tooltip [data-twrm-it-progress]:before {
+    content: "Progress: ";
+}

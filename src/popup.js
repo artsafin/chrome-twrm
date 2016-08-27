@@ -1,39 +1,59 @@
-if (!String.prototype.format) {
-  String.prototype.format = function() {
-    var args = arguments;
-    return this.replace(/{(\d+)}/g, function(match, number) { 
-      return typeof args[number] != 'undefined'
-        ? args[number]
-        : match
-      ;
+configure(function(config) {
+    chrome.tabs.query({active: true}, function(tabs){
+        if (!tabs.length) {
+            return;
+        }
+
+        var tab = tabs[0];
+
+        $(function(){
+            chrome.tabs.sendMessage(tab.id, {event: "postDataDemanded"}, null, function(message){
+                if (message && message.event == "postDataUpdate" && message.tw) {
+                    var newIssue = RedmineIssueForm.fromTw(message.tw, config.issues);
+                    newIssue.applyMatchOverrides(config.overrides);
+                    newIssue.typeOfIssue("Support");
+
+                    tryDetectParentIssue(newIssue, message.tw, function(form){
+                        showIframe(form);
+                    });
+                }
+            });
+        });
     });
-  };
-}
 
-chrome.tabs.query({active: true}, function(tabs){
-    console.log('[popup] tabs', tabs);
+    function showIframe(rmForm){
+        var link = rmForm.createNewIssueLink(config.redmineUrl, config.redmineProject);
 
-    if (!tabs.length) {
-        return;
-    }
-
-    var tab = tabs[0];
-
-    function createNewIssueLink(baseUrl, projectAlias, fields) {
-        return "{0}/projects/{1}/issues/new?{2}".format(baseUrl, projectAlias, $.param(fields));
-    }
-
-    $(function(){
-
-        
+        console.log('[popup]', rmForm, link);
 
         $('#progress').hide();
-        $('#placeholder').empty();
+        $('#placeholder').html($("<iframe src='{0}'></iframe>".format(link)));
+    };
 
-        var link = createNewIssueLink("https://redmine.fxtm", "web-development-department", {twrm_tab: tab.id});
+    function tryDetectParentIssue(newIssue, tw, onComplete) {
+        if (config.redmineApiKey && tw.project) {
+            var api = new RedmineApi(config.redmineUrl, config.redmineApiKey);
 
-        console.log('[popup]', link);
+            api.getIssues({subject: config.issues.projectPrefix + tw.project})
+                .always(function(xhr){
+                    if (xhr.status == 200 && xhr.responseJSON && xhr.responseJSON.issues && xhr.responseJSON.issues.length) {
+                        newIssue.parentIssueId(xhr.responseJSON.issues[0].id || null);
 
-        $('#placeholder').append($("<iframe src='{0}'></iframe>".format(link)));
-    });
+                        if (xhr.responseJSON.issues[0].custom_fields) {
+                            xhr.responseJSON.issues[0].custom_fields.map(function(v){
+                                if (v.name == "Type of Issue") {
+                                    newIssue.typeOfIssue(v.value, true);
+                                    return false;
+                                }
+                            });
+                        }
+                    }
+
+                    onComplete(newIssue);
+                });
+
+        } else {
+            onComplete(newIssue);
+        }
+    }
 });

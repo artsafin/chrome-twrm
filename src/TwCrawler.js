@@ -51,9 +51,9 @@ TwCrawler.prototype = {
     getPostData: function(withSelection){
         return {
             base_url: this.window.location.origin,
-            title: this.head.find('div.title div.text').html(),
+            title: this.head.find('div.title div.text').text(),
             author: this.head.find('.details a.author').text(),
-            section: this.head.find('.description a').html(),
+            section: this.head.find('.description a').text(),
             project: this.head.find('.details a[href^="/projects"]').text().trim(),
             self_link: this.window.location.href,
             head_content: this.body.find('div.content').html(),

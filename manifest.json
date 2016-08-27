@@ -19,10 +19,25 @@
     {
       "all_frames": true,
       "matches": [
-        "https://tw.fxtm.com/servicedesk/view/*",
+        "https://tw.fxtm.com/servicedesk/view/*"
+      ],
+      "js": [
+        "bower_components/jquery/dist/jquery.min.js",
+        "bower_components/jqueryui/ui/version.js",
+        "bower_components/jqueryui/ui/position.js",
+        "src/RedmineApi.js",
+        "src/IssueTooltip.js",
+        "src/TwCrawler.js",
+        "src/utils.js",
+        "src/configure.js",
+        "src/tw_inject.js"],
+      "css": ["views/issue_tooltip.css"]
+    },
+    {
+      "matches": [
         "https://redmine.fxtm/*"
       ],
-      "js": ["bower_components/jquery/dist/jquery.min.js", "src/TwCrawler.js", "src/configure.js", "src/inject.js"]
+      "js": ["bower_components/jquery/dist/jquery.min.js", "src/configure.js", "src/rm_inject.js"]
     }
   ],
   "page_action": {
