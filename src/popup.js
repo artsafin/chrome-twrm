@@ -23,11 +23,12 @@ configure(function(config) {
 
     function showIframe(rmForm){
         var link = rmForm.createNewIssueLink(config.redmineUrl, config.redmineProject);
+        var escapedLink = link.replace(/'/g, "&#39;");
 
-        console.log('[popup]', rmForm, link);
+        console.log('[popup]', escapedLink);
 
         $('#progress').hide();
-        $('#placeholder').html($("<iframe src='{0}'></iframe>".format(link)));
+        $('#placeholder').html($("<a class='waves-effect waves-teal btn-flat' href='{0}' target='_blank'>New window</a><iframe src='{0}'></iframe>".format( escapedLink )));
     };
 
     function tryDetectParentIssue(newIssue, tw, onComplete) {
@@ -57,3 +58,4 @@ configure(function(config) {
         }
     }
 });
+

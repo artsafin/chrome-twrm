@@ -1,67 +1,142 @@
-console.log("[inject] loaded", window.location.href);
+console.log("[inject-left] loaded", window.location.href);
 
-configure(function(config){
-    var tw = new TwCrawler(window);
+var tw;
 
-    chrome.runtime.sendMessage(null, {event: "postShown", tw: tw.getPostData()});
+$(function(){
+    tw = new TW(document);
+});
 
-    chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-        // console.log('[inject] onMessage', arguments);
+var TW = (function(){
 
-        if (message && message.event && message.event == "postDataDemanded") {
-            sendResponse({event: "postDataUpdate", tw: tw.getPostData(true)});
+    function globalKeyHandler(e) {
+        if (e.key.length != 1 && e.key != "Escape") {
+            return; // Just modifier pressed
         }
 
-        if (message && message.event && message.event == "issueCreated" && message.text) {
-            var updateUrl = window.location.href.replace("view", "comment/update");
-            var data = new FormData();
-            data.append('content', message.text);
-            $.ajax({
-                method: "POST",
-                url: updateUrl,
-                contentType: false,
-                processData: false,
-                data: data,
-                dataType: "json",
-                complete: function(xhr){
-                    var json = JSON.parse(xhr.responseText);
-                    var newUrl = window.location.origin + window.location.pathname + "?p_comment_id=" + json.comment_id + "#comment_" + json.comment_id;
-                    // console.log('complete', arguments, newUrl);
-                    setTimeout(function(){
-                        window.location.href = newUrl;
-                    }, 50);
-                }
-            });
+        console.log('globalKeyHandler', e);
+
+        if (e.keyCode == 191 && this.left) { // Slash
+            this.left.beginSearch();
         }
-    });
+        if (e.key == "Escape" && this.left) {
+            this.left.endSearch();
+        }
+    }
 
-    if (config.redmineApiKey) {
-        var tooltip = new IssueTooltip(document.body);
+    function cls(rootDoc){
+        var me = this;
 
-        $(document.body).on('mouseenter mouseleave', 'a[href^="{0}/issues/"]'.format(config.redmineUrl), function(e){
-            if (e.type == "mouseenter") {
-                var link = this,
-                    issueIdMatches = link.href.match(/\/(\d+)$/);
-                if (!issueIdMatches || issueIdMatches.length != 2) {
-                    console.log('mouseover no match', this, link.href);
-                    return false;
-                }
+        $(rootDoc).on('keydown', globalKeyHandler.bind(me));
 
-                var api = new RedmineApi(config.redmineUrl, config.redmineApiKey);
+        $(rootDoc).find('#frame_left').on('load', function(){
+            console.log('frame_left load');
+            $(this.contentDocument).on('keydown', globalKeyHandler.bind(me));
 
-                tooltip.showLoadingNear(link);
+            me.left = new TW.Left(this.contentDocument);
+        });
+        $(rootDoc).find('#frame_content').on('load', function(){
+            console.log('frame_content load');
+            $(this.contentDocument).on('keydown', globalKeyHandler.bind(me));
 
-                api.getIssue(issueIdMatches[1])
-                    .then(function(json){
-                        if (json && json.issue) {
-                            tooltip.data(json.issue);
-                        }
-                    }, function(){
-                        tooltip.nodata();
-                    });
-            } else if (e.type == "mouseleave") {
-                tooltip.hideAfter(700);
+            me.center = this.contentDocument;
+        });
+    };
+
+    return cls;
+})();
+
+TW.Left = (function(){
+
+    function cls(doc){
+        var me = this;
+
+        me.doc = doc;
+        me.index = {};
+
+        $(me.doc).find('a.plus').each(function(){
+            me.index[$(this).text()] = this;
+        });
+
+        me.sb = new IncrementalSearchBar(me.doc);
+        me.sb.onSearch(function(str){
+            var re = str.length ? (new RegExp(str, "i")) : null;
+            for (var k in me.index) if (me.index.hasOwnProperty(k)) {
+                var showOrHide = (!re || re.test(k)) ? 'show' : 'hide';
+
+                $(me.index[k])[showOrHide]();
+                $(me.index[k].nextSibling)[showOrHide]();
             }
         });
-    }
-});
+    };
+
+    cls.prototype = {
+        beginSearch: function(){
+            var me = this;
+
+            console.log('beginSearch');
+            me.sb.showAndFocus();
+        },
+        endSearch: function(){
+            console.log('endSearch');
+            if (!this.sb) {
+                return;
+            }
+
+            this.sb.hide();
+        }
+    };
+
+    return cls;
+})();
+
+var IncrementalSearchBar = (function(){
+
+    function cls(doc){
+        var me = this;
+
+        me.el = $('<div id="twrm_sb"><input placeholder="Filter by section" type="text" /></div>');
+        me.input = me.el.find('input');
+
+        me.el.on('transitionend webkitTransitionEnd', function(){
+            if (me.el.hasClass("twrm_visible")) {
+                setTimeout(function(){
+                    me.input.focus().select();
+                }, 100);
+            }
+        });
+
+        me.input.on('keydown', function(spe){
+            spe.stopPropagation();
+
+            if (spe.key == "Escape") {
+                spe.preventDefault();
+                me.hide();
+            }
+        }).on('keyup', function(spe){
+            me.searchCb && me.searchCb(this.value);
+        }).on('blur', function(){
+            me.hide();
+        }).on('focus', function(){
+            me.showAndFocus();
+        });
+
+        $(doc.body).prepend(me.el);
+        me.searchCb = null;
+    };
+
+    cls.prototype = {
+        showAndFocus: function(){
+            this.el && this.el.addClass("twrm_visible");
+        },
+        hide: function(){
+            if (this.el) {
+                this.el.removeClass("twrm_visible");
+            }
+        },
+        onSearch: function(cb){
+            this.searchCb = cb;
+        }
+    };
+
+    return cls;
+})();

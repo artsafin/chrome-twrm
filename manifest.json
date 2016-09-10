@@ -4,9 +4,9 @@
   "name": "Teamwox/Redmine integration",
   "description": "Adds slight interaction between Teamwox and Redmine",
   "version": "1.0",
-  "icons": {"16": "res/icon/icon16.png",
-            "48": "res/icon/icon48.png",
-            "128": "res/icon/icon128.png"},
+  "icons": {"16": "res/icon/icon-16.png",
+            "48": "res/icon/icon-48.png",
+            "128": "res/icon/icon-128.png"},
 
   "background": {
     "scripts": [
@@ -19,7 +19,8 @@
     {
       "all_frames": true,
       "matches": [
-        "https://tw.fxtm.com/servicedesk/view/*"
+        "https://tw.fxtm.com/servicedesk/view/*",
+        "https://redmine.fxtm/*"
       ],
       "js": [
         "bower_components/jquery/dist/jquery.min.js",
@@ -30,7 +31,7 @@
         "src/TwCrawler.js",
         "src/utils.js",
         "src/configure.js",
-        "src/tw_inject.js"],
+        "src/tw_sd_inject.js"],
       "css": ["views/issue_tooltip.css"]
     },
     {
@@ -38,14 +39,28 @@
         "https://redmine.fxtm/*"
       ],
       "js": ["bower_components/jquery/dist/jquery.min.js", "src/configure.js", "src/rm_inject.js"]
+    },
+    {
+      "matches": [
+        "https://tw.fxtm.com/*"
+      ],
+      "run_at": "document_start",
+      "js": ["bower_components/jquery/dist/jquery.min.js", "src/configure.js", "src/tw_inject.js"]
+    },
+    {
+      "all_frames": true,
+      "matches": [
+        "https://tw.fxtm.com/*"
+      ],
+      "css": ["views/search_bar.css"]
     }
   ],
   "page_action": {
     "default_icon": {
-      "19": "res/icon/icon19.png",
-      "38": "res/icon/icon38.png"
+      "19": "res/icon/icon-19.png",
+      "38": "res/icon/icon-38.png"
     },
-    "default_title": "See Redmine options",
+    "default_title": "See extension options",
     "default_popup": "views/popup.html"
   },
 
@@ -58,7 +73,7 @@
     "webRequestBlocking",
     "storage",
     "activeTab",
-    "https://tw.fxtm.com/*/view/*",
+    "https://tw.fxtm.com/*",
     "https://redmine.fxtm/*"
   ]
 }
