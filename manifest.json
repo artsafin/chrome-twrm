@@ -1,8 +1,10 @@
 {
   "manifest_version": 2,
 
-  "name": "Teamwox/Redmine integration",
-  "description": "Adds slight interaction between Teamwox and Redmine",
+  "name": "Teamwox enhancements",
+  "short_name": "Teamwox enh.",
+  "description": "Adds enhancements to Teamwox and provides better integration with other systems",
+  "author": "Teamwox Salvation Army",
   "version": "1.0",
   "icons": {"16": "res/icon/icon-16.png",
             "48": "res/icon/icon-48.png",
