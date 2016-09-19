@@ -5,50 +5,133 @@ This page is shown when the extension button is clicked, because the
 value "popup.html".
 -->
 <html>
-  <head>
-    <title>Teamwox/Redmine integration</title>
+<head>
+    <title>Teamwox enhancements</title>
     <meta charset="utf-8">
     <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="/bower_components/Materialize/dist/js/materialize.min.js"></script>
 
-    <link type="text/css" rel="stylesheet" href="/bower_components/Materialize/dist/css/materialize.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="/bower_components/Materialize/dist/css/materialize.min.css"
+          media="screen,projection"/>
 
     <style>
-    html {
-      font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
-      font-size: 100%;
-      min-width: 450px;
-      min-height: 550px;
-    }
-    body {
-      margin: 0;
-      padding: 0;
-    }
-    h1 {
-      font-size: 100%;
-    }
-    a.disabled {
-      color: #ccc;
-      cursor: default;
-    }
-    #placeholder {
-      background-color: #F0F0F0;
-    }
-    #placeholder iframe {
-      width: 100%;
-      height: 550px;
-      border: none;
-    }
+        html {
+            font-family: GillSans, Calibri, Trebuchet, sans-serif;
+            /*font-size: 15px;*/
+            /*line-height: 1em;*/
+            min-width: 700px;
+            min-height: 550px;
+            position: relative;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #iframe-container {
+            background-color: #F0F0F0;
+        }
+
+        #iframe-container iframe {
+            width: 100%;
+            height: 550px;
+            border: none;
+        }
+
+        #issue-wizard {
+            /*display: flex;*/
+        }
+
+        #issue-wizard > * {
+            margin: auto;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        ul.autocomplete-content {
+            max-height: 370px;
+            position: absolute;
+        }
+
+        #parent_task_info span {
+            font-weight: bold;
+        }
     </style>
     <script src="/src/configure.js"></script>
     <script src="/src/utils.js"></script>
     <script src="/src/RedmineApi.js"></script>
     <script src="/src/RedmineIssueForm.js"></script>
     <script src="/src/popup.js"></script>
-  </head>
-  <body>
-    <div class="progress" id="progress">
-      <div class="indeterminate"></div>
-    </div>
-    <div id="placeholder"></div>
-  </body>
+</head>
+<body>
+<div class="progress hidden" id="progress">
+    <div class="indeterminate"></div>
+</div>
+
+<div id="issue-wizard">
+    <form>
+        <div class="row">
+            <div class="col s12">
+
+                <div class="card">
+                    <div class="card-content" id="tw_preview" style="min-height: 150px;">
+                        <a class="card-title" data-tpl-tw-title href="#"></a>
+
+                        <div class="input-field col s12">
+                            <input type="text" id="parent-task-input" class="autocomplete">
+                            <label for="parent-task-input">Parent task</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-panel">
+                    <div class="hidden col s12" id="parent_task_info">
+                        <div class="row">
+                            <div class="col s6">Author: <span data-tpl-author></span></div>
+                            <div class="col s6">Type of Issue: <span data-tpl-type-of-issue></span></div>
+                        </div>
+                        <div class="row">
+                            <div class="col s6">Assigned to: <span data-tpl-assigned-to></span></div>
+                            <div class="col s6">Teamwox: <span data-tpl-teamwox></span></div>
+                        </div>
+                        <div class="row">
+                            <div class="col s6">Priority: <span data-tpl-combined-priority></span></div>
+                            <a data-tpl-rm-link class='col s3 btn waves-effect waves-light' href='#' target='_blank'>Open Parent</a>
+                        </div>
+                    </div>
+
+                    <a id="btn_create_preview" class='btn waves-effect waves-light' href='#'>Create with preview</a>
+                </div>
+
+                <!--
+              <div class="card">
+                <div class="card-content">
+                    <div class="input-field">
+                      <select id="select_parent_task">
+                        <option value="create">Create...</option>
+                        <option value="none" selected>None</option>
+                      </select>
+                      <label for="select_parent_task">Parent task</label>
+                    </div>
+
+                </div>
+                <div class="card-action">
+                  <a id="btn_create_preview" class='btn waves-effect waves-light' href='#'>Create with preview</a>
+                </div>
+              </div>
+            </div>
+            -->
+            </div>
+        </div>
+    </form>
+</div>
+
+<div id="iframe-container" class="hidden">
+    <a id="btn-new-window" class='waves-effect waves-teal btn-flat' href='#' target='_blank'>New window</a>
+    <iframe id="iframe" src='about:blank'></iframe>
+</div>
+</body>
 </html>

@@ -13,6 +13,10 @@ var TW = (function(){
             return; // Just modifier pressed
         }
 
+        if (e.target && (e.target.nodeName == "INPUT" || e.target.nodeName == "TEXTAREA")) {
+            return;
+        }
+
         console.log('globalKeyHandler', e);
 
         if (e.keyCode == 191 && this.left) { // Slash
@@ -29,13 +33,13 @@ var TW = (function(){
         $(rootDoc).on('keydown', globalKeyHandler.bind(me));
 
         $(rootDoc).find('#frame_left').on('load', function(){
-            console.log('frame_left load');
+            // console.log('frame_left load');
             $(this.contentDocument).on('keydown', globalKeyHandler.bind(me));
 
             me.left = new TW.Left(this.contentDocument);
         });
         $(rootDoc).find('#frame_content').on('load', function(){
-            console.log('frame_content load');
+            // console.log('frame_content load');
             $(this.contentDocument).on('keydown', globalKeyHandler.bind(me));
 
             me.center = this.contentDocument;
@@ -73,11 +77,11 @@ TW.Left = (function(){
         beginSearch: function(){
             var me = this;
 
-            console.log('beginSearch');
+            // console.log('beginSearch');
             me.sb.showAndFocus();
         },
         endSearch: function(){
-            console.log('endSearch');
+            // console.log('endSearch');
             if (!this.sb) {
                 return;
             }

@@ -1,6 +1,6 @@
 IssueTooltip = (function(){
 
-    var hideAfterMs = 700;
+    var hideAfterMs = 200;
 
     function create(me, under) {
         var el = $('<div style="display:none" id="twrm_issue_tooltip"><ul>'

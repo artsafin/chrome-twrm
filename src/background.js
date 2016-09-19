@@ -10,7 +10,7 @@ configure(function(config){
                     headers.splice(i, 1); // Remove header
                 }
             }
-            window.console.info("modified headers:", headers);
+            // window.console.info("modified headers:", headers);
             return {responseHeaders: headers};
         },
         {

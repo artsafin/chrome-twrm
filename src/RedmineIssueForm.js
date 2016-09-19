@@ -8,7 +8,14 @@ RedmineIssueForm = (function(){
         this.params = initial || {};
     }
     cls.prototype = {
-        applyMatchOverrides: function(ovr) {
+        /*
+        ovr = {
+            "kkk": [
+                {"match": <regexp string>, "params": {"rm param": "value", "rm param2": "value2"}}
+            ]
+        }
+        */
+        applyMatchOverrides: function(tw, ovr) {
             var result = {};
 
             if (!ovr) {
@@ -16,7 +23,7 @@ RedmineIssueForm = (function(){
             }
 
             for (var k in ovr) if (ovr.hasOwnProperty(k)) {
-                var refValue = this.params[k];
+                var refValue = tw[k];
                 if (refValue === undefined) {
                     continue;
                 }
@@ -31,14 +38,14 @@ RedmineIssueForm = (function(){
                     }
                     for (var j=0,lenj=refValue.length;j<lenj;j++) {
                         if (re.test("" + refValue[j])) {
-                            $.extend(true, result, ovr[k][i].params);
+                            deepSet(result, ovr[k][i].params);
                             break;
                         }
                     }
                 }
             }
 
-            return $.extend(true, this.params, result);
+            return deepSet(this.params, result);
         },
         createNewIssueLink: function(baseUrl, projectAlias) {
             return "{0}/projects/{1}/issues/new?{2}".format(baseUrl, projectAlias, $.param(this.params));
@@ -54,6 +61,36 @@ RedmineIssueForm = (function(){
             deepSet(this.params, {"issue[fixed_version_id]": val});
 
             return this;
+        },
+        teamwox: function(val, overwrite){
+            if (val !== undefined) {
+                if (overwrite || this.teamwox() === null || this.teamwox() === undefined) {
+                    deepSet(this.params, {"issue[custom_field_values]": {"1": val}});
+                }
+
+                return this;
+            } else {
+                try {
+                    return this.params["issue[custom_field_values]"]["1"];
+                } catch (err) {
+                    return null;
+                }
+            }
+        },
+        customerPriority: function(val, overwrite){
+            if (val !== undefined) {
+                if (overwrite || this.customerPriority() === null || this.customerPriority() === undefined) {
+                    deepSet(this.params, {"issue[custom_field_values]": {"9": val}});
+                }
+
+                return this;
+            } else {
+                try {
+                    return this.params["issue[custom_field_values]"]["9"];
+                } catch (err) {
+                    return null;
+                }
+            }
         },
         typeOfIssue: function(val, overwrite){
             if (val !== undefined) {
@@ -80,10 +117,21 @@ RedmineIssueForm = (function(){
 
             return this;
         },
-        priority: function(val){
-            deepSet(this.params, {"issue[priority_id]": val});
+        priority: function(val, overwrite){
+            if (val !== undefined) {
+                if (overwrite || this.priority() === null || this.priority() === undefined) {
+                    deepSet(this.params, {"issue[priority_id]": val});
+                }
 
-            return this;
+                return this;
+            } else {
+                try {
+                    return this.params["issue[priority_id]"];
+                }
+                catch (err) {
+                    return null;
+                }
+            }
         }
     };
 

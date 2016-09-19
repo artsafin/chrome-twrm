@@ -48,6 +48,13 @@ TwCrawler.prototype = {
             })
             .get();
     },
+    getAssigned: function(){
+        return this.window.$('.assign-list .users-list .blue')
+            .map(function(){
+                return this.innerHTML;
+            })
+            .get();
+    },
     getPostData: function(withSelection){
         return {
             base_url: this.window.location.origin,
@@ -59,6 +66,7 @@ TwCrawler.prototype = {
             head_content: this.body.find('div.content').html(),
             head_attachments: this.getHeadAttachments(),
             sel: (withSelection ? this.getSelectionContext() : null) || {},
+            assigned: this.getAssigned(),
             responsibles: this.getResponsibles(),
             important: this.content.is(".important")
         };
