@@ -79,6 +79,7 @@
     "https://redmine.fxtm/*"
   ],
   "web_accessible_resources": [
-    "views/minimal_redmine.css"
+    "views/minimal_redmine.css",
+    "views/overview.html"
   ]
 }
