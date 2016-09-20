@@ -217,7 +217,7 @@ configure(function(config) {
 
         var wizard = ui.wizard();
 
-        api.getIssues({"limit": 100, "fixed_version_id": config.issues.projectTargetVersion, "project_id": 18})
+        api.getIssues({"limit": 100, "fixed_version_id": config.issues.projectTargetVersion, "project_id": config.redmineProjectId})
             .then(function(json){
                 var list = RedmineApi.IssueList.fromJson(json),
                     options = list.issues,

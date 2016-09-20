@@ -4,6 +4,7 @@ function configure(cb) {
         overridesStr: "{}",
         redmineUrl: "https://redmine.fxtm",
         redmineProject: "web-development-department",
+        redmineProjectId: 18,
         redmineApiKey: "",
         redmineProjectPrefix: "Project / ",
         redmineProjectTargetVersion: 234, // "Projects"

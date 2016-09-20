@@ -47,4 +47,14 @@ configure(function(config){
             });
         }
     });
+
+    chrome.runtime.onInstalled.addListener(function(reason){
+        // reason = {"install", "update", "chrome_update", or "shared_module_update"}
+
+        if (reason == "install" || reason == "update") {
+            chrome.tabs.create({
+                url: "chrome-extension://" + chrome.i18n.getMessage('@@extension_id') + "/views/overview.html"
+            });
+        }
+    });
 });
