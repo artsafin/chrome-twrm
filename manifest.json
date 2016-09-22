@@ -1,15 +1,15 @@
 {
   "manifest_version": 2,
-
   "name": "Teamwox enhancements",
   "short_name": "Teamwox enh.",
   "description": "Adds enhancements to Teamwox and provides better integration with other systems",
   "author": "Teamwox Salvation Army",
-  "version": "1.0",
-  "icons": {"16": "res/icon/icon-16.png",
-            "48": "res/icon/icon-48.png",
-            "128": "res/icon/icon-128.png"},
-
+  "version": "1.2",
+  "icons": {
+    "16": "res/icon/icon-16.png",
+    "48": "res/icon/icon-48.png",
+    "128": "res/icon/icon-128.png"
+  },
   "background": {
     "scripts": [
       "bower_components/jquery/dist/jquery.min.js",
@@ -32,29 +32,43 @@
         "src/TwCrawler.js",
         "src/utils.js",
         "src/configure.js",
-        "src/tw_sd_inject.js"],
-      "css": ["views/issue_tooltip.css"]
+        "src/tw_sd_inject.js"
+      ],
+      "css": [
+        "views/issue_tooltip.css"
+      ]
     },
     {
       "all_frames": true,
       "matches": [
         "https://redmine.fxtm/*"
       ],
-      "js": ["bower_components/jquery/dist/jquery.min.js", "src/utils.js", "src/configure.js", "src/rm_inject.js"]
+      "js": [
+        "bower_components/jquery/dist/jquery.min.js",
+        "src/utils.js",
+        "src/configure.js",
+        "src/rm_inject.js"
+      ]
     },
     {
       "matches": [
         "https://tw.fxtm.com/*"
       ],
       "run_at": "document_start",
-      "js": ["bower_components/jquery/dist/jquery.min.js", "src/configure.js", "src/tw_inject.js"]
+      "js": [
+        "bower_components/jquery/dist/jquery.min.js",
+        "src/configure.js",
+        "src/tw_inject.js"
+      ]
     },
     {
       "all_frames": true,
       "matches": [
         "https://tw.fxtm.com/*"
       ],
-      "css": ["views/search_bar.css"]
+      "css": [
+        "views/search_bar.css"
+      ]
     }
   ],
   "page_action": {
@@ -63,9 +77,8 @@
       "38": "res/icon/icon-38.png"
     },
     "default_title": "See extension options",
-    "default_popup": "views/popup.html"
+    "default_popup": "views/popup-polymer.build.html"
   },
-
   "options_ui": {
     "page": "views/options.html",
     "chrome_style": true

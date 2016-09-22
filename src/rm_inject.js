@@ -11,7 +11,6 @@ function addCss(root) {
     var html = "<link type='text/css' rel='stylesheet' media='all' "
                 + "href='chrome-extension://{0}/views/minimal_redmine.css' />"
                     .format(chrome.i18n.getMessage('@@extension_id'));
-    console.log('addCss', root, html);
     $(root).prepend(html);
 }
 

@@ -41,6 +41,7 @@ RedmineApi.Issue = (function(){
         if (json.custom_fields) {
             json.custom_fields.map(function(v){
                 cf[v.name] = v.value;
+                cf[v.name.replace(/ /g, '_').toLowerCase()] = v.value;
             });
         }
 

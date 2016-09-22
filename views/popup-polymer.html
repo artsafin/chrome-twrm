@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+<head>
+    <title>Teamwox enhancements</title>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="../bower_components/jquery/dist/jquery.min.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="../bower_components/paper-styles/default-theme.html">
+
+    <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+    <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+    <link rel="import" href="../bower_components/paper-card/paper-card.html">
+    <link rel="import" href="../bower_components/paper-progress/paper-progress.html">
+    <link rel="import" href="../bower_components/paper-typeahead-input/paper-typeahead-input.html">
+    <link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+    <script src="../src/configure.js"></script>
+    <script src="../src/utils.js"></script>
+    <script src="../src/RedmineApi.js"></script>
+    <script src="../src/RedmineIssueForm.js"></script>
+    <script src="../src/popup-polymer.js"></script>
+
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            min-width: 600px;
+        }
+        #progress {
+            width: 100%
+        }
+    </style>
+</head>
+<body>
+
+<dom-module id="issue-wizard">
+    <style>
+        :host {
+            width: 100%;
+        }
+        paper-card {
+            width: 100%;
+        }
+
+        paper-progress {
+            position: absolute;
+            z-index: 10000;
+        }
+
+        .issue-info {
+            display: flex;
+            flex-wrap: wrap;
+            align-content: stretch;
+        }
+
+        .issue-info > * {
+            flex: 1;
+            min-width: 40%;
+        }
+    </style>
+    <template>
+        <paper-progress id="progress" indeterminate></paper-progress>
+        <paper-card heading="[[title]]">
+            <div class="card-content">
+                <paper-typeahead-input
+                        disabled
+                        id="parent-issues"
+                        max-suggestions="10"
+                        placeholder="Parent task"
+                        is-candidates-json
+                        searchable-props='["subject"]'
+                        display-prop="subject"></paper-typeahead-input>
+
+            </div>
+        </paper-card>
+        <paper-card>
+            <div class="card-content">
+                <div class="issue-info" id="parent-task-info">
+                    <div>Author: [[issue.author.name]]</div>
+                    <div>Type of Issue: [[issue.cf.type_of_issue]]</div>
+                    <div>Assigned to: [[issue.assigned_to.name]]</div>
+                    <div>Teamwox: <a target="_blank" href="[[issue.cf.teamwox]]">[[issue.cf.teamwox]]</a></div>
+                    <div>Priority: [[issue.priority.name]] [[issue.cf.customer_priority]]</div>
+                    <a href='[[rmHost]]/issues/[[issue.id]]' target='_blank'>Open Parent</a>
+                </div>
+            </div>
+            <div class="card-actions">
+                <paper-button id="btn-create-preview" on-click="createPreviewClick">
+                    <iron-icon icon="icons:send"></iron-icon>
+                    Create with preview</paper-button>
+            </div>
+        </paper-card>
+    </template>
+    <script>
+        HTMLImports.whenReady(function () {
+            Polymer({
+                is: 'issue-wizard',
+                properties: {
+                    title: {
+                        type: String,
+                        notify: true
+                    },
+                    issue: {
+                        type: Object,
+                        notify: true
+                    }
+                },
+                stopProgress: function() {
+                    $(this.$.progress).hide();
+                },
+                createPreviewClick: function(){
+                    this.fire('createpreviewclick', {parent: this.issue});
+                }
+            });
+        });
+    </script>
+</dom-module>
+
+<dom-module id="issue-preview">
+    <style>
+        :host {
+            background-color: #F0F0F0;
+        }
+
+        iframe {
+            min-height: 590px;
+            width: 100%;
+            border: none;
+        }
+    </style>
+    <template>
+        <iframe id="iframe" src='about:blank'></iframe>
+    </template>
+    <script>
+        HTMLImports.whenReady(function () {
+            Polymer({
+                is: 'issue-preview',
+                setHref: function(href){
+                    var escapedLink = href.replace(/'/g, "%27");
+
+                    this.$.iframe.src = escapedLink;
+                }
+            });
+        });
+    </script>
+</dom-module>
+
+<iron-pages id="pages" selected="0">
+    <issue-wizard></issue-wizard>
+    <issue-preview></issue-preview>
+</iron-pages>
+
+</body>
+</html>
