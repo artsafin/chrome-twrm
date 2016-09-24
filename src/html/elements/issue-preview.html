@@ -1,0 +1,26 @@
+<dom-module id="issue-preview">
+    <style>
+        :host {
+            background-color: #F0F0F0;
+        }
+
+        iframe {
+            min-height: 590px;
+            width: 100%;
+            border: none;
+        }
+    </style>
+    <template>
+        <iframe id="iframe" src='about:blank'></iframe>
+    </template>
+    <script>
+        Polymer({
+            is: 'issue-preview',
+            setHref: function (href) {
+                var escapedLink = href.replace(/'/g, "%27"); //
+
+                this.$.iframe.src = escapedLink;
+            }
+        });
+    </script>
+</dom-module>

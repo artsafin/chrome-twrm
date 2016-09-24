@@ -12,9 +12,9 @@
   },
   "background": {
     "scripts": [
-      "bower_components/jquery/dist/jquery.min.js",
-      "src/configure.js",
-      "src/background.js"
+      "build/jquery.min.js",
+      "src/js/configure.js",
+      "src/js/background.js"
     ]
   },
   "content_scripts": [
@@ -24,18 +24,18 @@
         "https://tw.fxtm.com/servicedesk/view/*"
       ],
       "js": [
-        "bower_components/jquery/dist/jquery.min.js",
-        "bower_components/jqueryui/ui/version.js",
-        "bower_components/jqueryui/ui/position.js",
-        "src/RedmineApi.js",
-        "src/IssueTooltip.js",
-        "src/TwCrawler.js",
-        "src/utils.js",
-        "src/configure.js",
-        "src/tw_sd_inject.js"
+        "build/jquery.min.js",
+        "build/version.js",
+        "build/position.js",
+        "src/js/RedmineApi.js",
+        "src/js/IssueTooltip.js",
+        "src/js/TwCrawler.js",
+        "src/js/utils.js",
+        "src/js/configure.js",
+        "src/js/tw_sd_inject.js"
       ],
       "css": [
-        "views/issue_tooltip.css"
+        "build/issue_tooltip.css"
       ]
     },
     {
@@ -44,10 +44,10 @@
         "https://redmine.fxtm/*"
       ],
       "js": [
-        "bower_components/jquery/dist/jquery.min.js",
-        "src/utils.js",
-        "src/configure.js",
-        "src/rm_inject.js"
+        "build/jquery.min.js",
+        "src/js/utils.js",
+        "src/js/configure.js",
+        "src/js/rm_inject.js"
       ]
     },
     {
@@ -56,9 +56,9 @@
       ],
       "run_at": "document_start",
       "js": [
-        "bower_components/jquery/dist/jquery.min.js",
-        "src/configure.js",
-        "src/tw_inject.js"
+        "build/jquery.min.js",
+        "src/js/configure.js",
+        "src/js/tw_inject.js"
       ]
     },
     {
@@ -67,7 +67,7 @@
         "https://tw.fxtm.com/*"
       ],
       "css": [
-        "views/search_bar.css"
+        "build/search_bar.css"
       ]
     }
   ],
@@ -77,10 +77,10 @@
       "38": "res/icon/icon-38.png"
     },
     "default_title": "See extension options",
-    "default_popup": "views/popup-polymer.build.html"
+    "default_popup": "build/popup.build.html"
   },
   "options_ui": {
-    "page": "views/options.html",
+    "page": "build/options.build.html",
     "chrome_style": true
   },
   "permissions": [
@@ -92,7 +92,7 @@
     "https://redmine.fxtm/*"
   ],
   "web_accessible_resources": [
-    "views/minimal_redmine.css",
-    "views/overview.html"
+    "build/minimal_redmine.css",
+    "build/overview.build.html"
   ]
 }

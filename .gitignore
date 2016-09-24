@@ -3,3 +3,5 @@ bundling
 res/src
 .idea
 bower_components
+node_modules
+build

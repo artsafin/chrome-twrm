@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+    <title>Teamwox enhancements</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script type="text/javascript" src="../../bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="../../bower_components/paper-styles/default-theme.html">
+
+    <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+    <link rel="import" href="elements/issue-wizard.html">
+    <link rel="import" href="elements/issue-preview.html">
+
+    <script src="../js/configure.js"></script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/RedmineApi.js"></script>
+    <script src="../js/RedmineIssueForm.js"></script>
+    <script src="../js/popup-polymer.js"></script>
+
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            min-width: 600px;
+        }
+    </style>
+</head>
+<body>
+
+<iron-pages id="pages" selected="0">
+    <issue-wizard></issue-wizard>
+    <issue-preview></issue-preview>
+</iron-pages>
+
+</body>
+</html>

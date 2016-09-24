@@ -3,13 +3,18 @@
     <head>
         <title>Teamwox/Redmine integration options</title>
         <meta charset="utf-8">
-        <link type="text/css" rel="stylesheet" href="/bower_components/Materialize/dist/css/materialize.min.css" media="screen,projection" />
-        <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
-        <script type="text/javascript" src="/bower_components/Materialize/dist/js/materialize.min.js"></script>
-        <script type="text/javascript" src="/src/configure.js"></script>
-        <script type="text/javascript" src="/src/options.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+        <link rel="import" href="../../bower_components/paper-styles/default-theme.html">
+        <script type="text/javascript" src="../../bower_components/jquery/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="../js/configure.js"></script>
+        <script type="text/javascript" src="../js/options.js"></script>
     </head>
     <body>
+        <form is="iron-form">
+            <paper-input name="name" label="name"></paper-input>
+            <input name="address">
+        </form>
         <form>
             <!-- <div class="row"> -->
                 <div class="row">

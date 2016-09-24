@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-util": "^3.0.7",
+    "gulp-zip": "^3.2.0",
+    "polybuild": "^1.1.0"
+  }
+}
