@@ -10,6 +10,9 @@ var zipName = 'chrome-twrm.zip',
         'src/html/*.html',
         'src/html/**/*.html'
     ],
+    polymerJsDeps = [
+        'src/js/*.js'
+    ],
     bowerDeps = [
         "bower_components/jquery/dist/jquery.min.js",
         "bower_components/jqueryui/ui/version.js",
@@ -53,6 +56,7 @@ gulp.task('bundle', ['build'], function () {
 });
 gulp.task('watch', function () {
     gulp.watch(polymerDeps, ['build-polymer']);
+    gulp.watch(polymerJsDeps, ['build-polymer']);
     gulp.watch(bowerDeps, ['build-dep-bower']);
     gulp.watch(otherDeps, ['build-dep-other']);
 });

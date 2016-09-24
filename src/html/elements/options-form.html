@@ -1,0 +1,70 @@
+<link rel="import" href="../../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../../../bower_components/iron-grid/iron-grid.html">
+
+<dom-module id="options-form">
+    <style>
+        paper-input-container {
+            width: 90%;
+        }
+
+        paper-input {
+            padding: 0 !important;
+        }
+
+        paper-toolbar .title {
+            margin-left: 0 !important;
+        }
+
+        form {
+            padding: 0.5em;
+        }
+    </style>
+    <template>
+        <paper-toolbar justify="start">
+            <span class="title">Options</span>
+            <paper-icon-button on-click="save" icon="save"></paper-icon-button>
+        </paper-toolbar>
+
+        <form is="iron-form">
+            <paper-input id="twUrl" label="Teamwox URL" pattern=".+" error-message="Mandatory setting"
+                         value="{{data.twUrl}}"></paper-input>
+            <paper-input id="redmineUrl" type="url" label="Redmine URL" error-message="Mandatory setting"
+                         value="{{data.redmineUrl}}"></paper-input>
+            <iron-grid>
+                <paper-input class="s6 xs12" id="redmineProject" pattern=".+" error-message="Mandatory setting" type="text"
+                             label="Redmine project" value="{{data.redmineProject}}"></paper-input>
+                <paper-input class="s6 xs12" id="redmineProjectId" pattern=".+" error-message="Mandatory setting" type="text"
+                             label="ID" value="{{data.redmineProjectId}}"></paper-input>
+            </iron-grid>
+            <paper-input id="redmineApiKey" type="text" label="Redmine API Key" value="{{data.redmineApiKey}}"></paper-input>
+            <paper-textarea id="overridesStr" label="Moar magic" value="{{data.overridesStr}}"></paper-textarea>
+        </form>
+        <paper-toast id="toastSuccess" text="Settings saved!"></paper-toast>
+    </template>
+    <script>
+        Polymer({
+            is: "options-form",
+            properties: {
+                data: {
+                    type: Object,
+                    notify: true,
+                    value: {},
+                    reflectToAttribute: true
+                }
+            },
+            toast: function (action) {
+                if (action == 'success') {
+                    this.$.toastSuccess.open();
+                }
+            },
+            save: function () {
+                this.fire('saveclick');
+            }
+        });
+    </script>
+</dom-module>

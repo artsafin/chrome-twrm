@@ -58,7 +58,7 @@
                 </div>
             </div>
             <div class="card-actions">
-                <paper-button id="btn-create-preview" on-click="createPreviewClick">
+                <paper-button id="btn" on-click="createPreviewClick" disabled>
                     <iron-icon icon="icons:send"></iron-icon>
                     Create with preview
                 </paper-button>
@@ -80,6 +80,7 @@
             },
             stopProgress: function () {
                 $(this.$.progress).hide();
+                this.$.btn.disabled = false;
             },
             createPreviewClick: function () {
                 this.fire('createpreviewclick', {parent: this.issue});

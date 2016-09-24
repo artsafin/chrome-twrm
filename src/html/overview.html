@@ -6,44 +6,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="../../bower_components/paper-styles/default-theme.html">
+    <style>
+        body {
+            position: relative;
+        }
+        section {
+            position: absolute;
+            left: 55px;
+            top: 0;
+        }
+    </style>
 </head>
 <body>
-<h3>Teamwox enhancements extension</h3>
+<img src="../../res/icon/icon-48.png"/>
+<section>
+    <h1>Teamwox enhancements extension</h1>
 
-<h5>How to use with Redmine:</h5>
-<ol>
-    <li>Configure Redmine API key in settings - that will enable most of the features</li>
-</ol>
+    <h3>How to use with Redmine:</h3>
+    <ol>
+        <li>Configure Redmine API key in settings - that will enable most of the features</li>
+    </ol>
 
-<h4>What's new:</h4>
+    <h3>What's new:</h3>
 
-<h5>Version 1.1</h5>
-<ol>
-    <li>Fixed bugs with slash</li>
-    <li>Parent- & sub-tasking: preselect Project Redmine as parent inheriting crucual data form parent task</li>
-    <li>Simplified Redmine layout - removed unnecessary headers and paddings</li>
-</ol>
-<h5>Version 1.0</h5>
-<ol>
-    <li>Create redmine to arbitrary project in Redmine - use Settings to configure project</li>
-    <li>Creating redmine now doesn't show any intermediate windows - it directly shows native Redmine interface right in popup with prefilled fields</li>
-    <li>After issue has been created this can be posted to Teamwox</li>
-    <li>Creating redmines from Teamwox tasks is not supported anymore</li>
-    <li>Creating project ("root") redmines:
-        <ol>
-            <li>Servicedesk must reside in Teamwox project</li>
-            <li>To create root redmine, select project name in head post of the servicedesk and press the button</li>
-        </ol>
-    </li>
-    <li>Improved subtasking! Created redmine tasks based on servicedesks under the same Teamwox project will be created as a subtask of the root redmine (root redmine subject must exactly match the name of the Teamwox project).<br>
-        Requires Redmine API Key configured in Settings
-    </li>
-    <li>Advanced magic possible using "Moar magic" option in settings</li>
-    <li>The extension adds search to Servicedesk sections list:<br>
-        Use "/" for a keyboard shortcut to jump to search.</li>
-    <li>(If API key is configured in settings) Redmine tooltip when mouse is over a Redmine link</li>
-</ol>
-
+    <h4>Version 1.1</h4>
+    <ol>
+        <li>Fixed bugs with slash</li>
+        <li>Parent- & sub-tasking: preselect Project Redmine as parent inheriting crucual data form parent task</li>
+        <li>Simplified Redmine layout - removed unnecessary headers and paddings</li>
+    </ol>
+    <h4>Version 1.0</h4>
+    <ol>
+        <li>Create redmine to arbitrary project in Redmine - use Settings to configure project</li>
+        <li>Creating redmine now doesn't show any intermediate windows - it directly shows native Redmine interface right in popup with prefilled fields</li>
+        <li>After issue has been created this can be posted to Teamwox</li>
+        <li>Creating redmines from Teamwox tasks is not supported anymore</li>
+        <li>Creating project ("root") redmines:
+            <ol>
+                <li>Servicedesk must reside in Teamwox project</li>
+                <li>To create root redmine, select project name in head post of the servicedesk and press the button</li>
+            </ol>
+        </li>
+        <li>Improved subtasking! Created redmine tasks based on servicedesks under the same Teamwox project will be created as a subtask of the root redmine (root redmine subject must exactly match the name of the Teamwox project).<br>
+            Requires Redmine API Key configured in Settings
+        </li>
+        <li>Advanced magic possible using "Moar magic" option in settings</li>
+        <li>The extension adds search to Servicedesk sections list:<br>
+            Use "/" for a keyboard shortcut to jump to search.
+        </li>
+        <li>(If API key is configured in settings) Redmine tooltip when mouse is over a Redmine link</li>
+    </ol>
+</section>
 
 </body>
 </html>

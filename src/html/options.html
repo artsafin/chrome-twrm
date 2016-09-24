@@ -1,65 +1,26 @@
 <!DOCTYPE html>
 <html style="margin: 0; padding: 0; min-width: 400px; overflow-x: hidden;">
-    <head>
-        <title>Teamwox/Redmine integration options</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-        <link rel="import" href="../../bower_components/paper-styles/default-theme.html">
-        <script type="text/javascript" src="../../bower_components/jquery/dist/jquery.min.js"></script>
-        <script type="text/javascript" src="../js/configure.js"></script>
-        <script type="text/javascript" src="../js/options.js"></script>
-    </head>
-    <body>
-        <form is="iron-form">
-            <paper-input name="name" label="name"></paper-input>
-            <input name="address">
-        </form>
-        <form>
-            <!-- <div class="row"> -->
-                <div class="row">
-                    <div class="input-field col s12">
-                        <input id="twUrl" type="url" required class="validate" pattern=".+" value="1">
-                        <label for="twUrl" data-error="Incorrect URL">Teamwox URL</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-field col s12">
-                        <input id="redmineUrl" type="url" value="1">
-                        <label for="redmineUrl">Redmine URL</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-field col s8">
-                        <input id="redmineProject" type="text" value="1">
-                        <label for="redmineProject">Redmine project</label>
-                    </div>
-                    <div class="input-field col s4">
-                        <input id="redmineProjectId" type="text" value="1">
-                        <label for="redmineProjectId">ID</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-field col s12">
-                        <input id="redmineApiKey" type="text" value="1">
-                        <label for="redmineApiKey">Redmine API Key</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-field col s12">
-                        <textarea id="overridesStr" class="materialize-textarea">1</textarea>
-                        <label for="overridesStr">Moar magic</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col s6 left-align">
-                        <button id="btn-reset" type="button">Reset settings</button>
-                    </div>
-                    <div class="col s6 right-align">
-                        <button type="submit">Save &amp; exit</button>
-                    </div>
-                </div>
-            <!-- </div> -->
-        </form>
-    </body>
+<head>
+    <title>Teamwox/Redmine integration options</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="../../bower_components/paper-styles/default-theme.html">
+    <script type="text/javascript" src="../../bower_components/jquery/dist/jquery.min.js"></script>
+
+    <link rel="import" href="elements/options-form.html">
+
+    <script type="text/javascript" src="../js/configure.js"></script>
+    <script type="text/javascript" src="../js/options.js"></script>
+
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<options-form></options-form>
+</body>
 </html>
