@@ -39,13 +39,19 @@ configure(function(config){
     }
 
     $(function(){
-        new FieldSummaryIndicator()
+        if ($('.list.issues').length) {
+            new FieldSummaryIndicator()
+        }
     });
 });
 
 var FieldSummaryIndicator = (function(){
+    function round2(value) {
+        return Math.round(value * 100) / 100
+    }
+
     function getCellsSum(tdSelector) {
-        return $('.context-menu-selection td.' + tdSelector).map(function () {
+        var value = $('.context-menu-selection td.' + tdSelector).map(function () {
             try {
                 return parseFloat(this.innerText);
             }
@@ -55,11 +61,15 @@ var FieldSummaryIndicator = (function(){
         }).get().reduce(function (acc, it) {
             return acc + (isNaN(it) ? 0 : it);
         }, 0);
+
+        return round2(value);
     }
 
     function getHtml() {
-        var html = '<div id="fieldIndicator" style="width: 200px; height: 40px; position: fixed; background: white; border: 1px #ccc solid; bottom: 0; right: 0; box-shadow: -10px -7px 47px -15px rgba(120, 120, 120, 1);">'
-                   + '<b>Est:</b>&nbsp;<span id="est">0</span><br><b>Spent:</b>&nbsp;<span id="spent">0</span>'
+        var html = '<div id="fieldIndicator" style="padding: 2px; min-width: 150px; position: fixed; background: white; border-left: 1px #ccc solid; border-top: 1px #ccc solid; bottom: 0; right: 0; box-shadow: -10px -7px 47px -15px rgba(120, 120, 120, 1); z-index: 10000;">'
+                   + '<b>&sum; Est:</b>&nbsp;<span id="est">0</span><br>'
+                   + '<b>&sum; Spent:</b>&nbsp;<span id="spent">0</span><br>'
+                   + '<b>&sum; Remain:</b>&nbsp;<span id="remain">0</span>'
                    + '</div>';
 
         return html;
@@ -72,10 +82,12 @@ var FieldSummaryIndicator = (function(){
 
         $(document).on('click', 'tr', function () {
             var est = getCellsSum('estimated_hours'),
-                spent = getCellsSum('spent_hours');
+                spent = getCellsSum('spent_hours'),
+                remain = Math.max(0, round2(est - spent));
 
             el.find('#est').text(est);
             el.find('#spent').text(spent);
+            el.find('#remain').text(remain);
         });
     };
 
