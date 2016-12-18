@@ -37,7 +37,7 @@
             <div class="card-content">
                 <paper-typeahead-input
                         disabled
-                        id="parent-issues"
+                        id="parentIssues"
                         max-suggestions="10"
                         placeholder="Parent task"
                         is-candidates-json
@@ -58,9 +58,13 @@
                 </div>
             </div>
             <div class="card-actions">
-                <paper-button id="btn" on-click="createPreviewClick" disabled>
+                <paper-button id="btnCreateWithPreview" on-click="createPreviewClick" disabled>
                     <iron-icon icon="icons:send"></iron-icon>
                     Create with preview
+                </paper-button>
+                <paper-button id="btnBulkCreate" on-click="bulkCreateClick">
+                    <iron-icon icon="icons:toc"></iron-icon>
+                    Bulk create
                 </paper-button>
             </div>
         </paper-card>
@@ -76,14 +80,23 @@
                 issue: {
                     type: Object,
                     notify: true
+                },
+                twLoaded: {
+                    type: Boolean,
+                    notify: true
                 }
             },
             stopProgress: function () {
                 $(this.$.progress).hide();
-                this.$.btn.disabled = false;
+                if (this.twLoaded) {
+                    this.$.btnCreateWithPreview.disabled = false;
+                }
             },
             createPreviewClick: function () {
                 this.fire('createpreviewclick', {parent: this.issue});
+            },
+            bulkCreateClick: function () {
+                this.fire('bulkcreateclick', {parent: this.issue});
             }
         });
     </script>

@@ -14,7 +14,7 @@ configure(function(config){
             return {responseHeaders: headers};
         },
         {
-            urls: [ config.redmineUrl + '/*' ], // Pattern to match all http(s) pages
+            urls: [ config.redmineUrl + '/*' ], // Pattern to match all http(s) pages   ..
             types: [ 'sub_frame' ]
         },
         ['blocking', 'responseHeaders']
@@ -24,7 +24,7 @@ configure(function(config){
         window.console.info("[bg] onMessage", arguments);
 
         if (message && message.event && message.event == "postShown" && message.tw) {
-            chrome.pageAction.show(sender.tab.id);
+            // chrome.pageAction.show(sender.tab.id);
         }
 
     /*

@@ -13,8 +13,7 @@
   "background": {
     "scripts": [
       "build/jquery.min.js",
-      "src/js/configure.js",
-      "src/js/background.js"
+      "build/background.js"
     ]
   },
   "content_scripts": [
@@ -25,17 +24,10 @@
       ],
       "js": [
         "build/jquery.min.js",
-        "build/version.js",
-        "build/position.js",
-        "src/js/RedmineApi.js",
-        "src/js/IssueTooltip.js",
-        "src/js/TwCrawler.js",
-        "src/js/utils.js",
-        "src/js/configure.js",
-        "src/js/tw_sd_inject.js"
+        "build/tw_sd.js"
       ],
       "css": [
-        "build/issue_tooltip.css"
+        "build/tw_sd.css"
       ]
     },
     {
@@ -45,9 +37,7 @@
       ],
       "js": [
         "build/jquery.min.js",
-        "src/js/utils.js",
-        "src/js/configure.js",
-        "src/js/rm_inject.js"
+        "build/redmine.js"
       ]
     },
     {
@@ -57,8 +47,7 @@
       "run_at": "document_start",
       "js": [
         "build/jquery.min.js",
-        "src/js/configure.js",
-        "src/js/tw_inject.js"
+        "build/tw_search_bar.js"
       ]
     },
     {
@@ -67,11 +56,11 @@
         "https://tw.fxtm.com/*"
       ],
       "css": [
-        "build/search_bar.css"
+        "build/tw_search_bar.css"
       ]
     }
   ],
-  "page_action": {
+  "browser_action": {
     "default_icon": {
       "19": "res/icon/icon-19.png",
       "38": "res/icon/icon-38.png"

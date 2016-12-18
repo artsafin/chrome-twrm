@@ -1,4 +1,6 @@
 configure(function(config) {
+    var PROGRESS_HIDE_TIMEOUT = 3000;
+
     var api = new RedmineApi(config.redmineUrl, config.redmineApiKey),
         ui = null;
 
@@ -7,42 +9,56 @@ configure(function(config) {
             return;
         }
 
-        var tab = tabs[0];
-        chrome.tabs.sendMessage(tab.id, {event: "postDataDemanded"}, null, function(message){
-            if (message && message.event == "postDataUpdate" && message.tw) {
-                $(function(){
-                    ui = bindToUi();
+        $(function () {
+            ui = bindToUi();
+
+            ui.$issueWizard.on('bulkcreateclick', function (e) {
+                console.log('bulkcreateclick', e.detail.parent);
+            });
+
+            var progressHideTimer = setTimeout(function(){
+                ui.issueWizard.stopProgress();
+            }, PROGRESS_HIDE_TIMEOUT);
+
+            var tab = tabs[0];
+            chrome.tabs.sendMessage(tab.id, {event: "postDataDemanded"}, null, function (message) {
+                if (message && message.event == "postDataUpdate" && message.tw) {
+                    if (progressHideTimer) {
+                        clearTimeout(progressHideTimer);
+                    }
                     onPostDataUpdate(message);
-                });
-            }
+                }
+            });
+
         });
-/*
-        var message = {
-            "event": "postDataUpdate",
-            "tw": {
-                "base_url": "https://tw.fxtm.com",
-                "title": "test se\"r<v>ice desk's",
-                "author": "Artur Safin",
-                "section": "Unsorted",
-                "project": "",
-                "self_link": "https://tw.fxtm.com/servicedesk/view/43259#comment_769696",
-                "head_content": "<p>test service desl</p><p>test service desl</p><p>test service desl</p><p>test service desl</p><p>test service desltest service desltest service desltest service desltest service desl&nbsp;</p>",
-                "head_attachments": [],
-                "sel": {},
-                "assigned": [],
-                "responsibles": [],
-                "important": false
-            }
-        };
-        ui = bindToUi();
-        onPostDataUpdate(message);
-        */
+
+        /*
+                var message = {
+                    "event": "postDataUpdate",
+                    "tw": {
+                        "base_url": "https://tw.fxtm.com",
+                        "title": "test se\"r<v>ice desk's",
+                        "author": "Artur Safin",
+                        "section": "Unsorted",
+                        "project": "",
+                        "self_link": "https://tw.fxtm.com/servicedesk/view/43259#comment_769696",
+                        "head_content": "<p>test service desl</p><p>test service desl</p><p>test service desl</p><p>test service desl</p><p>test service desltest service desltest service desltest service desltest service desl&nbsp;</p>",
+                        "head_attachments": [],
+                        "sel": {},
+                        "assigned": [],
+                        "responsibles": [],
+                        "important": false
+                    }
+                };
+                ui = bindToUi();
+                onPostDataUpdate(message);
+                */
     });
 
     function bindToUi() {
         var $issuePreview = $('issue-preview'),
             $issueWizard = $('issue-wizard'),
-            $pi = $('#parent-issues');
+            $pi = $('#parentIssues');
         return {
             pages: $('#pages').get(0),
             $issuePreview: $issuePreview,
@@ -75,6 +91,7 @@ configure(function(config) {
             return;
         }
 
+        ui.issueWizard.twLoaded = true;
         ui.issueWizard.title = message.tw.title;
         ui.issueWizard.rmHost = config.redmineUrl;
 
