@@ -25,3 +25,7 @@
 #twrm_issue_tooltip [data-twrm-it-progress]:before {
     content: "Progress: ";
 }
+
+a span.redmine-link:after {
+    content: " ⚡"
+}

@@ -1,26 +1,68 @@
 <!DOCTYPE html>
-<html style="margin: 0; padding: 0; min-width: 400px; overflow-x: hidden;">
-<head>
-    <title>Teamwox/Redmine integration options</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-    <link rel="import" href="../../bower_components/paper-styles/default-theme.html">
-    <script type="text/javascript" src="../../bower_components/jquery/dist/jquery.min.js"></script>
+<html>
+    <head>
+        <style>
+            label {
+                display: block;
+            }
+            input[type=checkbox] + label {
+                display: inline;
+            }
+            input {
+                width: 100%;
+            }
+            section {
+                margin-bottom: 2em;
+            }
+            textarea {
+                width: 100%;
+                height: 5em;
+            }
+            label > span {
+                color: darkgray;
+                font-size: 90%;
+                display: block;
+            }
+            #status {
+                color: darkgray;
+            }
+        </style>
+    </head>
+    <body>
 
-    <link rel="import" href="elements/options-form.html">
+        <section>
+            <label for="twUrl">Teamwox URL</label>
+            <input type="text" id="twUrl" />
+        </section>
+        <section>
+            <label for="redmineUrl">Redmine URL</label>
+            <input type="text" id="redmineUrl" />
+        </section>
+        <section>
+            <label for="redmineProject">Redmine project</label>
+            <input type="text" id="redmineProject" />
+        </section>
+        <section>
+            <label for="redmineProjectId">Redmine project ID</label>
+            <input type="text" id="redmineProjectId" />
+        </section>
+        <section>
+            <label for="redmineApiKey">Redmine API Key</label>
+            <input type="text" id="redmineApiKey" />
+        </section>
+        <section>
+            <label for="tracked">
+                Overrides:<br>
+                <span>JSON</span>
+            </label>
+            <textarea id="overridesStr"></textarea>
+        </section>
 
+        <section>
+            <button id="save">Save</button>
+        </section>
+        <div id="status">Loading...</div>
+    </body>
     <script type="text/javascript" src="../js/configure.js"></script>
     <script type="text/javascript" src="../js/options.js"></script>
-
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-        }
-    </style>
-</head>
-<body>
-<options-form></options-form>
-</body>
 </html>

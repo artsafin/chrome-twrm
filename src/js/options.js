@@ -1,21 +1,61 @@
-$(function(){
-    configure(function(config){
+const setStatus = (status) => {
+    document.getElementById('status').innerHTML = status;
+};
 
-        var form = $('options-form').get(0);
+const setField = (id, value, defValue = '') => {
+    const el = document.getElementById(id);
 
-        $(form).on('saveclick', function(e){
-            console.log('[options] save', form.data);
+    if (el.type === 'checkbox') {
+        el.checked = value;
+    } else if (el) {
+        el.value = value || defValue;
+    }
+};
+const getField = (id, defValue = '') => {
+    const el = document.getElementById(id);
 
-            chrome.storage.local.set(form.data, function(){
-                form.toast('success');
+    if (!el) {
+        return defValue;
+    }
+
+    if (el.type === 'checkbox') {
+        return el.checked;
+    }
+
+    return el.value;
+};
+
+window.onload = () => {
+    configure
+        .then((config) => {
+
+            document.getElementById('save').addEventListener('click', () => {
+                setStatus('Saving...');
+
+                const newConfig = {
+                    twUrl: getField("twUrl"),
+                    redmineUrl: getField("redmineUrl"),
+                    overridesStr: getField("overridesStr"),
+                    redmineProject: getField("redmineProject"),
+                    redmineProjectId: getField("redmineProjectId"),
+                    redmineApiKey: getField("redmineApiKey")
+                };
+                chrome.storage.local.set({...defaultConfig, ...newConfig}, () => {
+                    setStatus('Saved');
+
+                    chrome.storage.local.get(null, (options) => {
+                        console.log('options after save', options);
+                    });
+                });
             });
+
+            setStatus('');
+
+            setField('twUrl', config.twUrl);
+            setField('redmineUrl', config.redmineUrl);
+            setField('overridesStr', config.overridesStr);
+            setField('redmineProject', config.redmineProject);
+            setField('redmineProjectId', config.redmineProjectId);
+            setField('redmineApiKey', config.redmineApiKey);
         });
-
-        function loadSettings() {
-            console.log('load items', config);
-            form.data = config;
-        }
-
-        loadSettings();
-    });
-});
+};

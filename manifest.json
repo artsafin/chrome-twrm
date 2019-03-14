@@ -12,8 +12,8 @@
   },
   "background": {
     "scripts": [
-      "build/jquery.min.js",
-      "build/background.js"
+      "src/js/configure.js",
+      "src/js/background.js"
     ]
   },
   "content_scripts": [
@@ -23,11 +23,18 @@
         "https://tw.fxtm.com/servicedesk/view/*"
       ],
       "js": [
-        "build/jquery.min.js",
-        "build/tw_sd.js"
+        "bower_components/jquery/dist/jquery.min.js",
+        "bower_components/jqueryui/ui/version.js",
+        "bower_components/jqueryui/ui/position.js",
+        "src/js/RedmineApi.js",
+        "src/js/IssueTooltip.js",
+        "src/js/TwCrawler.js",
+        "src/js/utils.js",
+        "src/js/configure.js",
+        "src/js/tw_sd_inject.js"
       ],
       "css": [
-        "build/tw_sd.css"
+        "src/css/issue_tooltip.css"
       ]
     },
     {
@@ -36,27 +43,10 @@
         "https://redmine.fxtm/*"
       ],
       "js": [
-        "build/jquery.min.js",
-        "build/redmine.js"
-      ]
-    },
-    {
-      "matches": [
-        "https://tw.fxtm.com/*"
-      ],
-      "run_at": "document_start",
-      "js": [
-        "build/jquery.min.js",
-        "build/tw_search_bar.js"
-      ]
-    },
-    {
-      "all_frames": true,
-      "matches": [
-        "https://tw.fxtm.com/*"
-      ],
-      "css": [
-        "build/tw_search_bar.css"
+        "bower_components/jquery/dist/jquery.min.js",
+        "src/js/utils.js",
+        "src/js/configure.js",
+        "src/js/rm_inject.js"
       ]
     }
   ],
@@ -66,10 +56,10 @@
       "38": "res/icon/icon-38.png"
     },
     "default_title": "See extension options",
-    "default_popup": "build/popup.build.html"
+    "default_popup": "src/html/popup.html"
   },
   "options_ui": {
-    "page": "build/options.build.html",
+    "page": "src/html/options.html",
     "chrome_style": true
   },
   "permissions": [
@@ -81,7 +71,7 @@
     "https://redmine.fxtm/*"
   ],
   "web_accessible_resources": [
-    "build/minimal_redmine.css",
-    "build/overview.build.html"
+    "src/css/minimal_redmine.css",
+    "src/html/overview.html"
   ]
 }
